@@ -55,7 +55,7 @@
         },
         methods: {
           diannima(){
-            alert("点尼玛！0.0")
+            alert(" 点尼玛! ")
           },
           selectItem(item){
               console.log("push啊啊啊")
@@ -124,7 +124,7 @@
   .recommend
     position: fixed
     width: 100%
-    top: 138px
+    top: 118px
     bottom: 0
     .recommend-content
       height: 100%

@@ -30,6 +30,6 @@
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 44px;
+  margin-top: 24px;
 }
 </style>
