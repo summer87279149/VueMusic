@@ -24,14 +24,16 @@
       <div v-show="!songs.length" class="loading-container">
         <loading></loading>
       </div>
+      <confirm ref="alert" text='有时候,我真的好想你..' ></confirm>
       <div v-show="timeout" class="loading-container2">
-        你太丑了,加载失败:(
+        就像这个圈，永远转不到尽头。。。
       </div>
     </scroll>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
+  import Confirm from '../../base/confirm/confirm(1).vue'
   import Scroll from '../../base/scroll/scroll'
   import Loading from '../../base/loading/loading'
   import SongList from '../../base/song-list/song-list'
@@ -120,6 +122,11 @@
       ])
     },
     watch: {
+        timeout(newVal){
+            if(newVal){
+              this.$refs.alert.show()
+            }
+        },
       scrollY(newVal) {
         var translateY = newVal
         if (newVal<this.minTransalteY){
@@ -156,7 +163,8 @@
     components: {
       Scroll,
       Loading,
-      SongList
+      SongList,
+      Confirm
     }
   }
 </script>
