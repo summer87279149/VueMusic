@@ -69,7 +69,7 @@
               <i @click="next" class="icon-next" > </i>
             </div>
             <div class="icon i-right">
-              <i class="icon icon-not-favorite"> </i>
+              <i @click="toggleFavorite(currentSong)" class="icon" :class="getFavoriteIcon(currentSong)"></i>
             </div>
           </div>
         </div>
@@ -99,7 +99,7 @@
       </div>
       </transition>
       <playlist ref="playlist"></playlist>
-      <audio ref="audio" :src="currentSong.url" @canplay="ready" @error="error" @timeupdate="updateTime" @ended="end"></audio>
+      <audio ref="audio" :src="currentSong.url" @play="ready" @error="error" @timeupdate="updateTime" @ended="end"></audio>
     </div>
 </template>
 
@@ -116,7 +116,9 @@
   import Playlist from '../../components/playlist/playlist.vue'
   const transform = prefixStyle('transform')
   const transitionDuration = prefixStyle('transitionDuration')
+  import {playerMixin} from '../../common/js/mixin'
   export default {
+        mixins: [playerMixin],
         data() {
             return {
               songReady: false,
@@ -250,9 +252,9 @@
               this.setPlayList(list)
             },
           resetCurrentIndex(list){
-let  index = list.findIndex((item)=>{
-    return item.id === this.currentSong.id
-})
+            let  index = list.findIndex((item)=>{
+                return item.id === this.currentSong.id
+            })
             this.setCurrentIndex(index)
           },
           onProgressBarChange(percent){
@@ -422,6 +424,8 @@ let  index = list.findIndex((item)=>{
               return this.songReady?'':'disable'
             },
             playIcon(){
+
+
               return this.playing ? 'icon-pause' : 'icon-play'
             },
           miniIcon() {
@@ -444,26 +448,40 @@ let  index = list.findIndex((item)=>{
 
           ])
         },
-        watch: {
-          currentSong(newSong,oldSong){
-              if (newSong.id ===oldSong.id ){
-                  return
-              }
-            clearTimeout(this.timer)
-            this.timer = setTimeout(() => {
-              this.$refs.audio.play()
-              this.getLyric()
-            }, 1000)
-
-          },
-          playing(newPlaying){
-            const audio = this.$refs.audio
-              this.$nextTick(()=>{
-                newPlaying?audio.play() : audio.pause()
-              })
-
-          }
-        },
+      watch: {
+      currentSong(newSong, oldSong) {
+        if (!newSong.id) {
+          return
+        }
+        if (newSong.id === oldSong.id) {
+          return
+        }
+        if (this.currentLyric) {
+          this.currentLyric.stop()
+          this.currentTime = 0
+          this.playingLyric = ''
+          this.currentLineNum = 0
+        }
+        clearTimeout(this.timer)
+        this.timer = setTimeout(() => {
+          this.$refs.audio.play()
+          this.getLyric()
+        }, 1000)
+      },
+      playing(newPlaying) {
+        const audio = this.$refs.audio
+        this.$nextTick(() => {
+          newPlaying ? audio.play() : audio.pause()
+        })
+      },
+      fullScreen(newVal) {
+        if (newVal) {
+          setTimeout(() => {
+            this.$refs.lyricList.refresh()
+          }, 20)
+        }
+      }
+    },
         components: {
           ProgressBar,
           ProgressCircle,

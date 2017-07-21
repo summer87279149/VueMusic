@@ -24,9 +24,13 @@
       <div v-show="!songs.length" class="loading-container">
         <loading></loading>
       </div>
-      <confirm ref="alert" text='有时候,我真的好想你..' ></confirm>
+      <confirm ref="alert" text='有时候,我真的好想你..' confirmBtnText='确定' cancelBtnText='取消' ></confirm>
       <div v-show="timeout" class="loading-container2">
-        就像这个圈，永远转不到尽头。。。
+        <br/>
+        <br/>
+        为什么我就忘不掉你
+        <br/><br/>
+        装作若无其事，真的很难
       </div>
     </scroll>
   </div>
@@ -79,7 +83,6 @@
     created() {
       setTimeout(()=>{
         if(this.songs.length===0){
-            console.log('到底有没有大衣那')
           this.timeout = true
 //          this.songs=[1];
         }

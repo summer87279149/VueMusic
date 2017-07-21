@@ -43,8 +43,10 @@
   import Scroll from '../../base/scroll/scroll.vue'
   import Loading from '../../base/loading/loading.vue'
   import {playlistMixin} from '../../common/js/mixin'
-  import {mapMutations} from 'vuex'
+  import {mapMutations,mapActions} from 'vuex'
   import alistjson from './list.json'
+  import HomePlayLists from './HomePlayLists.json'
+  import {createSong} from '../../common/js/song'
     export default {
       mixins: [playlistMixin],
         data() {
@@ -55,7 +57,7 @@
         },
         methods: {
           diannima(){
-            alert(" 点尼玛! ")
+
           },
           selectItem(item){
               console.log("push啊啊啊")
@@ -94,8 +96,22 @@
 //            })
           },
           ...mapMutations({
-            setDisc: 'SET_DISC'
-          })
+            setDisc: 'SET_DISC',
+            setFullScreen:'SET_FULL_SCREEN',
+          }),
+          ...mapActions([
+            'selectPlay',
+          ]),
+          _normalizeSongs(list) {
+            let ret = []
+            list.forEach((item) => {
+              let {musicData} = item
+              if (musicData.songid && musicData.albummid) {
+                ret.push(createSong(musicData))
+              }
+            })
+            return ret
+          }
         },
         props: {
         },
@@ -111,9 +127,22 @@
 
         },
         mounted(){
-          setTimeout(()=>{
+          clearTimeout(this.timer1)
+          this.timer1=setTimeout(()=>{
             this._getDiscList()
+
           },21)
+          clearTimeout(this.timer2)
+          this.timer2=setTimeout(()=>{
+            this.songs = this._normalizeSongs(HomePlayLists)
+            this.selectPlay({
+              list: this.songs,
+              index:4
+            })
+            this.setFullScreen(false)
+          },1300)
+
+
         }
     }
 </script>

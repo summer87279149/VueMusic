@@ -1,23 +1,56 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Recommend from '../components/recommend/recommend.vue'
-import Rank from  '../components/rank/rank.vue'
-import  Search from '../components/search/search.vue'
-import  Singer from '../components/singer/singer.vue'
-import SingerDetail from '../components/singer-detail/singer-detail.vue'
+
 // import Disc from '../components/disc/disc.vue'
+
+Vue.use(Router)
+const Recommend = (resolve) => {
+  import('../components/recommend/recommend').then((module) => {
+    resolve(module)
+  })
+}
+
+const Singer = (resolve) => {
+  import('../components/singer/singer').then((module) => {
+    resolve(module)
+  })
+}
+
+const Rank = (resolve) => {
+  import('../components/rank/rank').then((module) => {
+    resolve(module)
+  })
+}
+
+const Search = (resolve) => {
+  import('../components/search/search').then((module) => {
+    resolve(module)
+  })
+}
+
+const SingerDetail = (resolve) => {
+  import('../components/singer-detail/singer-detail').then((module) => {
+    resolve(module)
+  })
+}
+
 const Disc = (resolve) => {
   import('../components/disc/disc').then((module) => {
     resolve(module)
   })
 }
+
 const TopList = (resolve) => {
   import('../components/top-list/top-list').then((module) => {
     resolve(module)
   })
 }
-Vue.use(Router)
 
+const UserCenter = (resolve) => {
+  import('../components/user-center/user-center').then((module) => {
+    resolve(module)
+  })
+}
 export default new Router({
   mode:  'history',
   routes: [
@@ -34,7 +67,7 @@ export default new Router({
           component: Disc
         }
       ]
-    },,{
+    },{
       path:'/rank',
       component:Rank,
       children: [
@@ -59,6 +92,10 @@ export default new Router({
         path:':id',
         component:SingerDetail
       }]
+    },
+    {
+      path: '/user',
+      component: UserCenter
     }
   ]
 })

@@ -1,7 +1,7 @@
 /**
  * Created by admin on 2017/7/7.
  */
-import {playMode} from '../common/js/config'
+import  {playMode} from '../common/js/config'
 import {loadSearch, loadPlay, loadFavorite} from '../common/js/cache'
 const state={
   singer:{},
