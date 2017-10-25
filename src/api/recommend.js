@@ -1,7 +1,7 @@
 /**
  * Created by admin on 2017/7/4.
  */
-import jsonp from '../common/js/jsonp'
+import jsonp,{param} from '../common/js/jsonp'
 import {commonParams, options} from './config'
 import axios from 'axios'
 export function getRecommend() {
@@ -11,7 +11,6 @@ export function getRecommend() {
     uin: 0,
     needNewCode: 1
   })
-
   return jsonp(url, data, options)
 }
 export function getDiscList2() {
@@ -40,7 +39,7 @@ export function getDiscList() {
 }
 
 export function getSongList(disstid) {
-  const url = 'https://c.y.qq.com/qzone/fcg-bin/fcg_ucc_getcdinfo_byids_cp.fcg'
+  var url = 'https://c.y.qq.com/qzone/fcg-bin/fcg_ucc_getcdinfo_byids_cp.fcg'
   const data = Object.assign({}, commonParams, {
     disstid,
     type: 1,
@@ -51,6 +50,18 @@ export function getSongList(disstid) {
     hostUin: 0,
     needNewCode: 0
   })
-console.log("data=:",data)
-  return jsonp(url, data, options)
+  // return jsonp(url, data, options)
+  return new Promise((resolve, reject) => {
+    url += (url.indexOf('?') < 0 ? '?' : '&') + param(data)
+    axios.post("/api/useDynameUrl",{
+      paramUrl: url
+    }).then((res) => {
+      console.log("fanhui shi:",res.data);
+      resolve(res.data)
+    }).catch((err)=>{
+      alert('失败')
+      reject(err)
+    })
+  })
 }
+

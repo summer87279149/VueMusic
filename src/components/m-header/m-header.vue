@@ -1,15 +1,31 @@
 <template>
   <div class="m-header">
-    <div class="icon"></div>
+    <div @click="showFeedback" class="icon"></div>
     <h1 class="text">Summer Music</h1>
     <router-link tag="div" class="mine" to="/user">
       <i class="icon-mine"></i>
     </router-link>
+    <Feedback ref="feed"></Feedback>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
-  export default {}
+  import Feedback  from '../feedback/feedback.vue'
+  export default {
+    data() {
+      return {
+
+      }
+    },
+    methods: {
+      showFeedback(){
+        this.$refs.feed.show()
+      }
+    },
+    components:{
+      Feedback
+    }
+  }
 </script>
 
 <style scoped lang="stylus" rel="stylesheet/stylus">
@@ -45,4 +61,5 @@
         padding: 12px
         font-size: 20px
         color: $color-theme
+
 </style>

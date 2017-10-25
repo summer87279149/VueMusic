@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-
 // import Disc from '../components/disc/disc.vue'
 
 Vue.use(Router)
@@ -9,7 +8,11 @@ const Recommend = (resolve) => {
     resolve(module)
   })
 }
-
+const Feedback = (resolve) => {
+  import('../components/feedback/feedback').then((module) => {
+    resolve(module)
+  })
+}
 const Singer = (resolve) => {
   import('../components/singer/singer').then((module) => {
     resolve(module)

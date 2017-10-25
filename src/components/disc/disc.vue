@@ -40,12 +40,16 @@
         console.log("打印disc")
         console.log(this.disc)
         this.songs = []
-//        getSongList(this.disc.dissid).then((res) => {
-//          if (res.code === 0) {
-//            this.songs = this._normalizeSongs(res.cdlist[0].songlist)
-//
-//          }
-//        })
+        console.log("歌曲id",this.disc.dissid)
+        getSongList(this.disc.dissid).then((res) => {
+          if (res.code === 0) {
+            console.log("res:",res)
+            this.songs = this._normalizeSongs(res.cdlist[0].songlist)
+
+          }
+        }).catch((err)=>{
+          console.log("出错:",err);
+        })
       },
       _normalizeSongs(list) {
         let ret = []

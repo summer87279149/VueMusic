@@ -48,7 +48,7 @@
   import Confirm from '../../base/confirm/confirm(1)'
   import AddSong from '../../components/add-song/add-song'
   import {playerMixin} from '../../common/js/mixin'
-
+  import axios from 'axios'
   export default {
     mixins: [playerMixin],
     data() {

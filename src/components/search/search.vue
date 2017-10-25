@@ -44,7 +44,6 @@
   import {ERR_OK} from '../../api/config'
   import {playlistMixin, searchMixin} from '../../common/js/mixin'
   import {mapActions, mapGetters} from 'vuex'
-
   export default {
     mixins: [playlistMixin, searchMixin],
     data() {

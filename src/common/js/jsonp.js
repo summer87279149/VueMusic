@@ -11,7 +11,6 @@ export default function jsonp(url, data, option) {
       } else {
         console.log("返回错误=:",data)
         reject(err)
-
       }
     })
   })

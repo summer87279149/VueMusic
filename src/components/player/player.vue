@@ -34,7 +34,7 @@
         <scroll class="middle-r" ref="lyricList" :data="currentLyric && currentLyric.lines">
           <div class="lyric-wrapper">
             <div v-if="currentLyric">
-              <p ref="lyricLine"
+              mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm<p ref="lyricLine"
                  class="text"
                  v-for="(line,index) in currentLyric.lines"
                  :class="{'current': currentLineNum ===index}">{{line.txt}}</p>
@@ -99,11 +99,15 @@
       </div>
       </transition>
       <playlist ref="playlist"></playlist>
+      <!--<div></div>-->
+      <confirm ref="alert" text3="如有新的建议，请点击顶部鸡儿图标🐔反馈给我:)" text2="2、修复首页歌曲列表"  text='1、新增歌词功能' @confirm="confirm" @cancel="no" confirmBtnText='好的' cancelBtnText='不要' ></confirm>
       <audio ref="audio" :src="currentSong.url" @play="ready" @error="error" @timeupdate="updateTime" @ended="end"></audio>
     </div>
 </template>
 
 <script>
+  import storage from 'good-storage'
+  import Confirm from '../../base/confirm/confirm(1).vue'
   import Scroll from '../../base/scroll/scroll.vue'
   import ProgressBar from '../../base/progress-bar/progress-bar'
   import {mapGetters,mapMutations} from 'vuex'
@@ -131,6 +135,12 @@
             }
         },
         methods: {
+          no(){
+            alert('草泥马')
+          },
+          confirm(){
+            storage.set('isReadaa', true)
+          },
           showPlaylist() {
             this.$refs.playlist.show()
           },
@@ -448,7 +458,7 @@
 
           ])
         },
-      watch: {
+        watch: {
       currentSong(newSong, oldSong) {
         if (!newSong.id) {
           return
@@ -486,7 +496,8 @@
           ProgressBar,
           ProgressCircle,
           Scroll,
-          Playlist
+          Playlist,
+          Confirm
         },
         beforeCreate () {
         },
@@ -496,16 +507,15 @@
         beforeMount () {
         },
         mounted () {
-
-        },
-        beforeUpdate () {
-        },
-        updated () {
-
-        },
-        beforeDestroy () {
-        },
-        destroyed () {
+          let isRead = storage.get('isReadaa')
+          console.log('打印是否阅读过',isRead)
+          if (isRead){
+            console.log('读过了')
+            return
+          }else {
+            console.log('没读过')
+            this.$refs.alert.show()
+          }
         }
     }
 </script>
@@ -516,12 +526,12 @@
 
   .player
     .normal-player
-      position: fixed
+      position: absolute
       left: 0
       right: 0
       top: 0
       bottom: 0
-      z-index: 150
+      z-index: 1000
       background: $color-background
       .background
         position: absolute
@@ -613,11 +623,13 @@
           width: 100%
           height: 100%
           overflow: hidden
+          z-index :100
           .lyric-wrapper
             width: 80%
             margin: 0 auto
             overflow: hidden
             text-align: center
+            z-index :101
             .text
               line-height: 32px
               color: $color-text-l

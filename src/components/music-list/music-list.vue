@@ -24,13 +24,12 @@
       <div v-show="!songs.length" class="loading-container">
         <loading></loading>
       </div>
-      <confirm ref="alert" text='有时候,我真的好想你..' confirmBtnText='确定' cancelBtnText='取消' ></confirm>
+      <confirm ref="alert" text='丑八怪伊啊伊啊啊啊～啊～啊～' confirmBtnText='我的存在像意外' cancelBtnText='能否别把灯打开' ></confirm>
       <div v-show="timeout" class="loading-container2">
         <br/>
         <br/>
-        为什么我就忘不掉你
-        <br/><br/>
-        装作若无其事，真的很难
+         无内容
+        <br/>
       </div>
     </scroll>
   </div>

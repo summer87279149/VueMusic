@@ -12,7 +12,7 @@ var webpack = require('webpack')
 var proxyMiddleware = require('http-proxy-middleware')
 var webpackConfig = require('./webpack.dev.conf')
 var axios = require('axios')
-
+var bodyParser = require('body-parser');
 // default port where dev server listens for incoming traffic
 var port = process.env.PORT || config.dev.port
 // automatically open browser, if not set will be false
@@ -23,6 +23,9 @@ var proxyTable = config.dev.proxyTable
 
 var app = express()
 var apiRoutes = express.Router()
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
 apiRoutes.get('/getDiscList', function (req, res) {
   var url = 'https://c.y.qq.com/splcloud/fcgi-bin/fcg_get_diss_by_tag.fcg'
@@ -61,6 +64,24 @@ apiRoutes.get('/lyric', function (req, res) {
   }).catch((e) => {
     console.log(e)
   })
+})
+//使用需要nodejs帮忙请求的url作为参数
+apiRoutes.post('/useDynameUrl',function(req,res){
+  var url = req.body.paramUrl;
+  console.log('请求的参数url: ',url)
+  axios.get(url)
+    .then((respon)=>{
+
+      var data = respon.data
+      var l = data.length-1
+      var finalData = data.substring(13,l)
+      console.log("res:",finalData)
+      res.json(JSON.parse(finalData))
+
+    })
+    .catch((err)=>{
+      res.json({ msg: '反馈失败' });
+    })
 })
 
 app.use('/api', apiRoutes)

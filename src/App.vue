@@ -19,7 +19,6 @@
         Tab,
         Player
       },
-
   }
 </script>
 

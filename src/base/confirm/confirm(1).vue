@@ -4,6 +4,8 @@
       <div class="confirm-wrapper">
         <div class="confirm-content">
           <p class="text">{{text}}</p>
+          <p class="text" v-show="text2.length>0">{{text2}}</p>
+          <p class="text" v-show="text3.length>0">{{text3}}</p>
           <div class="operate">
             <div @click="cancel" class="operate-btn left">{{cancelBtnText}}</div>
             <div @click="confirm" class="operate-btn">{{confirmBtnText}}</div>
@@ -17,6 +19,14 @@
 <script type="text/ecmascript-6">
   export default {
     props: {
+      text3: {
+        type: String,
+        default: ''
+      },
+      text2: {
+        type: String,
+        default: ''
+      },
       text: {
         type: String,
         default: ''
